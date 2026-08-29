@@ -2302,3 +2302,23 @@ button:focus-visible {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--secondary);
 }
+
+/* =========================================================
+   DESKTOP ALIGNMENT REFINEMENTS
+   Mobile layout remains unchanged
+========================================================= */
+
+@media (min-width: 768px) {
+
+    /* Hero CTA buttons */
+    .hero-buttons {
+        justify-content: center;
+    }
+
+
+    /* Footer description */
+    .footer-logo p {
+        text-align: center;
+    }
+
+}
