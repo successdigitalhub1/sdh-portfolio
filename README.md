@@ -1,2 +1,3 @@
 # sdh-portfolio
-Success Digital Hub — AI-Assisted Web Design &amp; Digital Solutions
+Success Digital Hub — Digital Solutions for Businesses, Organizations & Professionals
+
