@@ -51,18 +51,20 @@
           content="og-image.png">
 
     <meta property="og:url"
-          content="https://successdigitalhub1.github.io">
+          content="https://successdigitalhub1.github.io/sdh-portfolio/">
 
 
     <!-- =========================
-         FAVICON
+         FAVICON / WEB APP ICON
     ========================== -->
 
     <link rel="icon"
-          href="favicon.png">
+          href="favicon.png"
+          type="image/png">
 
     <link rel="apple-touch-icon"
-          href="favicon.png">
+          href="favicon.png"
+          sizes="180x180">
 
 
     <!-- =========================
@@ -114,39 +116,36 @@
 ========================================================= -->
 
 <div id="sdh-splash"
-     class="sdh-splash">
+     class="sdh-splash"
+     aria-hidden="true">
 
     <div class="sdh-splash-content">
 
-        <!-- Typing Brand Text -->
 
-        <div class="sdh-splash-brand">
+        <!-- =========================
+             SDH WEB APP ICON
+        ========================== -->
 
-            <span class="sdh-typing-text">
+        <div class="sdh-splash-icon-wrap">
 
-                <span class="sdh-brand-white">
-                    Success
-                </span>
-
-                <span class="sdh-brand-blue">
-                    Digital
-                </span>
-
-                <span class="sdh-brand-white">
-                    Hub
-                </span>
-
-            </span>
+            <img src="favicon.png"
+                 alt="Success Digital Hub"
+                 class="sdh-splash-icon">
 
         </div>
 
 
-        <!-- Circular Loading Indicator -->
+        <!-- =========================
+             CIRCULAR LOADING INDICATOR
+        ========================== -->
 
-        <div class="sdh-splash-spinner"></div>
+        <div class="sdh-splash-spinner"
+             aria-hidden="true"></div>
 
 
-        <!-- Welcome Message -->
+        <!-- =========================
+             WELCOME MESSAGE
+        ========================== -->
 
         <p class="sdh-splash-message">
 
@@ -166,17 +165,6 @@
 
         </p>
 
-
-        <!-- Loading Status -->
-
-        <p class="sdh-loading-text">
-
-            Preparing your digital experience
-
-            <span class="sdh-loading-dots"></span>
-
-        </p>
-
     </div>
 
 </div>
@@ -191,7 +179,10 @@
 
     <div class="container">
 
-        <!-- Logo -->
+
+        <!-- =========================
+             LOGO
+        ========================== -->
 
         <a href="#home"
            class="logo">
@@ -203,9 +194,13 @@
         </a>
 
 
-        <!-- Navigation -->
+        <!-- =========================
+             NAVIGATION
+        ========================== -->
 
-        <nav class="navbar">
+        <nav class="navbar"
+             id="site-navigation"
+             aria-label="Main navigation">
 
             <ul class="nav-links">
 
@@ -250,17 +245,22 @@
         </nav>
 
 
-        <!-- Right Controls -->
+        <!-- =========================
+             RIGHT CONTROLS
+        ========================== -->
 
         <div class="header-controls">
 
-            <!-- Dark Mode -->
+
+            <!-- Dark / Light Mode -->
 
             <button id="theme-toggle"
                     type="button"
-                    aria-label="Toggle Theme">
+                    aria-label="Toggle Theme"
+                    title="Toggle Theme">
 
-                <i class="fas fa-sun"></i>
+                <i class="fas fa-moon"
+                   aria-hidden="true"></i>
 
             </button>
 
@@ -273,7 +273,8 @@
                     aria-expanded="false"
                     aria-controls="site-navigation">
 
-                <i class="fas fa-bars"></i>
+                <i class="fas fa-bars"
+                   aria-hidden="true"></i>
 
             </button>
 
@@ -286,7 +287,7 @@
 
 
 <!-- =========================
-     MAIN
+     MAIN CONTENT
 ========================== -->
 
 <main>
@@ -302,7 +303,7 @@
         <div class="container hero-container">
 
 
-            <!-- Left -->
+            <!-- Hero Content -->
 
             <div class="hero-content">
 
@@ -352,7 +353,7 @@
             </div>
 
 
-            <!-- Right -->
+            <!-- Hero Image -->
 
             <div class="hero-image">
 
@@ -385,6 +386,7 @@
              class="about">
 
         <div class="container">
+
 
             <div class="section-title reveal">
 
@@ -467,7 +469,7 @@
                             <i class="fas fa-chalkboard-user"></i>
 
                             <span>
-                                Digital coaching
+                                Digital Coaching
                             </span>
 
                         </div>
@@ -671,9 +673,7 @@
             <div class="portfolio-grid">
 
 
-                <!-- =========================
-                     WEBSITE DESIGN
-                ========================= -->
+                <!-- Website Design -->
 
                 <article class="portfolio-card">
 
@@ -704,7 +704,8 @@
 
                             Demo Project
 
-                            <i class="fas fa-external-link-alt"></i>
+                            <i class="fas fa-external-link-alt"
+                               aria-hidden="true"></i>
 
                         </a>
 
@@ -714,9 +715,7 @@
 
 
 
-                <!-- =========================
-                     GRAPHIC DESIGN
-                ========================= -->
+                <!-- Graphic Design -->
 
                 <article class="portfolio-card">
 
@@ -746,7 +745,8 @@
 
                             Design Collection
 
-                            <i class="fas fa-external-link-alt"></i>
+                            <i class="fas fa-external-link-alt"
+                               aria-hidden="true"></i>
 
                         </a>
 
@@ -756,9 +756,7 @@
 
 
 
-                <!-- =========================
-                     DIGITAL COACHING
-                ========================= -->
+                <!-- Digital Coaching -->
 
                 <article class="portfolio-card">
 
@@ -789,7 +787,8 @@
 
                             Visit TikTok
 
-                            <i class="fas fa-external-link-alt"></i>
+                            <i class="fas fa-external-link-alt"
+                               aria-hidden="true"></i>
 
                         </a>
 
@@ -799,9 +798,7 @@
 
 
 
-                <!-- =========================
-                     TECHNOLOGY BLOG
-                ========================= -->
+                <!-- Technology Blog -->
 
                 <article class="portfolio-card">
 
@@ -831,7 +828,8 @@
 
                             Visit Blog
 
-                            <i class="fas fa-external-link-alt"></i>
+                            <i class="fas fa-external-link-alt"
+                               aria-hidden="true"></i>
 
                         </a>
 
@@ -879,7 +877,8 @@
 
                 <div class="why-card">
 
-                    <i class="fas fa-lightbulb"></i>
+                    <i class="fas fa-lightbulb"
+                       aria-hidden="true"></i>
 
                     <h3>
                         Innovation
@@ -897,7 +896,8 @@
 
                 <div class="why-card">
 
-                    <i class="fas fa-shield-alt"></i>
+                    <i class="fas fa-shield-alt"
+                       aria-hidden="true"></i>
 
                     <h3>
                         Integrity
@@ -915,7 +915,8 @@
 
                 <div class="why-card">
 
-                    <i class="fas fa-bolt"></i>
+                    <i class="fas fa-bolt"
+                       aria-hidden="true"></i>
 
                     <h3>
                         Efficiency
@@ -933,7 +934,8 @@
 
                 <div class="why-card">
 
-                    <i class="fas fa-chart-line"></i>
+                    <i class="fas fa-chart-line"
+                       aria-hidden="true"></i>
 
                     <h3>
                         Continuous Growth
@@ -992,7 +994,8 @@
 
                 <div class="blog-icon">
 
-                    <i class="fas fa-blog"></i>
+                    <i class="fas fa-blog"
+                       aria-hidden="true"></i>
 
                 </div>
 
@@ -1065,7 +1068,8 @@
 
                 <div class="contact-card reveal">
 
-                    <i class="fas fa-envelope"></i>
+                    <i class="fas fa-envelope"
+                       aria-hidden="true"></i>
 
                     <h3>
                         Email
@@ -1086,13 +1090,13 @@
 
                 <div class="contact-card">
 
-                    <i class="fab fa-whatsapp"></i>
+                    <i class="fab fa-whatsapp"
+                       aria-hidden="true"></i>
 
                     <h3>
                         WhatsApp
                     </h3>
 
-                    <!-- WhatsApp number -->
 
                     <a href="https://wa.me/2348164866704"
                        target="_blank"
@@ -1111,13 +1115,13 @@
 
                 <div class="contact-card">
 
-                    <i class="fab fa-tiktok"></i>
+                    <i class="fab fa-tiktok"
+                       aria-hidden="true"></i>
 
                     <h3>
                         TikTok
                     </h3>
 
-                    <!-- TikTok username -->
 
                     <a href="https://tiktok.com/@sdhsolutions"
                        target="_blank"
@@ -1136,7 +1140,8 @@
 
                 <div class="contact-card">
 
-                    <i class="fas fa-blog"></i>
+                    <i class="fas fa-blog"
+                       aria-hidden="true"></i>
 
                     <h3>
                         Blog
@@ -1171,9 +1176,11 @@
 
 <button id="topBtn"
         type="button"
-        aria-label="Back to Top">
+        aria-label="Back to Top"
+        title="Back to Top">
 
-    <i class="fas fa-arrow-up"></i>
+    <i class="fas fa-arrow-up"
+       aria-hidden="true"></i>
 
 </button>
 
@@ -1187,6 +1194,8 @@
 
     <div class="container">
 
+
+        <!-- Footer Brand -->
 
         <div class="footer-logo">
 
@@ -1205,6 +1214,8 @@
         </div>
 
 
+
+        <!-- Footer Links -->
 
         <div class="footer-links">
 
@@ -1256,6 +1267,8 @@
 
 
 
+        <!-- Footer Social -->
+
         <div class="footer-social">
 
             <h3>
@@ -1273,7 +1286,8 @@
                    rel="noopener noreferrer"
                    aria-label="TikTok">
 
-                    <i class="fab fa-tiktok"></i>
+                    <i class="fab fa-tiktok"
+                       aria-hidden="true"></i>
 
                 </a>
 
@@ -1283,7 +1297,8 @@
                 <a href="#"
                    aria-label="Facebook">
 
-                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-facebook-f"
+                       aria-hidden="true"></i>
 
                 </a>
 
@@ -1295,7 +1310,8 @@
                    rel="noopener noreferrer"
                    aria-label="WhatsApp">
 
-                    <i class="fab fa-whatsapp"></i>
+                    <i class="fab fa-whatsapp"
+                       aria-hidden="true"></i>
 
                 </a>
 
@@ -1305,7 +1321,8 @@
                 <a href="mailto:successdigitalhub1@gmail.com"
                    aria-label="Email">
 
-                    <i class="fas fa-envelope"></i>
+                    <i class="fas fa-envelope"
+                       aria-hidden="true"></i>
 
                 </a>
 
@@ -1318,6 +1335,8 @@
     </div>
 
 
+
+    <!-- Footer Bottom -->
 
     <div class="footer-bottom">
 
@@ -1355,12 +1374,17 @@
     <div class="sdh-notice-card">
 
 
+        <!-- Notice Icon -->
+
         <div class="sdh-notice-icon">
 
-            <i class="fas fa-info"></i>
+            <i class="fas fa-info"
+               aria-hidden="true"></i>
 
         </div>
 
+
+        <!-- Notice Label -->
 
         <span class="sdh-notice-label">
 
@@ -1369,12 +1393,16 @@
         </span>
 
 
+        <!-- Notice Heading -->
+
         <h2 id="sdh-notice-title">
 
             Platform Update
 
         </h2>
 
+
+        <!-- Notice Message -->
 
         <p>
 
@@ -1386,12 +1414,14 @@
 
         <p>
 
-            Facebook and Graphic design page(Behance) will be available soon.
+            Facebook and Graphic design page (Behance) will be available soon.
             In the meantime, you can explore our services, portfolio,
             blog and other available channels.
 
         </p>
 
+
+        <!-- Notice Button -->
 
         <button id="sdh-notice-ok"
                 class="sdh-notice-btn"

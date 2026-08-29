@@ -1,30 +1,29 @@
 /* ===========================================================
    SUCCESS DIGITAL HUB (SDH)
-   VERSION 1 — CONSOLIDATED CONTROLLER
-   SCRIPT.JS
+   FINAL CONSOLIDATED SCRIPT.JS
 
-   Author: Success Osawemi Afeisume
-   Developed with AI Assistance
+   Designed for:
+   - SDH Portfolio
+   - Current HTML structure
+   - Current CSS structure
+   - Desktop / tablet / mobile layouts
 
-   Features:
-   ✔ Sticky Header
-   ✔ Mobile Navigation
-   ✔ Active Navigation
-   ✔ Scroll Reveal
-   ✔ Back To Top
-   ✔ Dark / Light Mode
-   ✔ Saved Theme Preference
-   ✔ External Link Security
-   ✔ Image Loading
-   ✔ Page Loaded State
-   ✔ Splash Screen
-   ✔ Typing Animation
-   ✔ Spinner Stage
-   ✔ Welcome Stage
-   ✔ Preparing Stage
-   ✔ Animated Loading Dots
-   ✔ Development Notice
-   ✔ Accessibility Support
+   Main functionality:
+   - Splash screen
+   - Slower spinner
+   - Typed welcome message
+   - Platform update notice on EVERY refresh
+   - Dark / light mode
+   - Theme persistence
+   - Mobile navigation
+   - Active navigation
+   - Scroll reveal
+   - Header scroll state
+   - Back-to-top button
+   - External-link protection
+   - Accessibility support
+   - Reduced-motion support
+   - Defensive error handling
 =========================================================== */
 
 "use strict";
@@ -34,142 +33,189 @@
    CONFIGURATION
 =========================================================== */
 
-const CONFIG = {
+const SDH_CONFIG = Object.freeze({
 
+    /* Navigation */
     scrollOffset: 120,
 
+    /* Scroll reveal */
     revealThreshold: 0.15,
 
+    /* Back-to-top */
+    topButtonThreshold: 500,
 
-    /* -------------------------------------------------------
-   SPLASH TIMING
-------------------------------------------------------- */
+    /* Mobile navigation breakpoint */
+    desktopBreakpoint: 993,
 
-splashTypingSpeed: 100,
+    /* Splash screen */
+    splash: Object.freeze({
 
-splashBrandPause: 700,
+        /*
+         * Spinner is intentionally slower than the previous
+         * version so the loading stage feels deliberate.
+         */
+        spinnerDuration: 2600,
 
-splashSpinnerDuration: 2000,
+        /*
+         * Speed of the welcome message typing effect.
+         * Smaller number = faster typing.
+         */
+        welcomeTypingSpeed: 30,
 
-splashWelcomeDuration: 2000,
+        /*
+         * Pause after the welcome message finishes typing.
+         * This is the requested short 1–3 second pause.
+         */
+        welcomeHoldDuration: 1800,
 
-splashPreparingDuration: 3000,
-
-splashDotsDuration: 3000,
-
-splashDotsSpeed: 350,
-
-splashExitDuration: 700
-
-  };
+        /*
+         * Splash fade-out time.
+         */
+        exitDuration: 700
+    })
+});
 
 
 /* ===========================================================
-   DOM READY — SINGLE APPLICATION CONTROLLER
+   SAFE DOM HELPERS
+=========================================================== */
+
+const $ = (selector, parent = document) =>
+    parent.querySelector(selector);
+
+
+const $$ = (selector, parent = document) =>
+    parent.querySelectorAll(selector);
+
+
+const addClass = (element, className) => {
+
+    if (element) {
+        element.classList.add(className);
+    }
+
+};
+
+
+const removeClass = (element, className) => {
+
+    if (element) {
+        element.classList.remove(className);
+    }
+
+};
+
+
+const wait = (milliseconds) =>
+    new Promise((resolve) =>
+        window.setTimeout(resolve, milliseconds)
+    );
+
+
+/* ===========================================================
+   SAFE STORAGE
+=========================================================== */
+
+const SDHStorage = {
+
+    get(key) {
+
+        try {
+
+            return window.localStorage.getItem(key);
+
+        } catch (error) {
+
+            return null;
+
+        }
+
+    },
+
+
+    set(key, value) {
+
+        try {
+
+            window.localStorage.setItem(
+                key,
+                value
+            );
+
+        } catch (error) {
+
+            /* Storage may be unavailable.
+               The website continues normally. */
+
+        }
+
+    }
+
+};
+
+
+/* ===========================================================
+   DOM READY
 =========================================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
+    function () {
 
-        const body = document.body;
+        /* =====================================================
+           CORE ELEMENTS
+        ===================================================== */
 
-        if (!body) {
-            return;
-        }
-
-
-        /* ===================================================
-           DOM REFERENCES
-        =================================================== */
+        const body =
+            document.body;
 
         const header =
-            document.querySelector(
-                ".header"
-            );
-
+            $(".header");
 
         const menuBtn =
-            document.getElementById(
-                "menu-btn"
-            );
-
+            $("#menu-btn");
 
         const navLinks =
-            document.querySelector(
-                ".nav-links"
-            );
-
+            $(".nav-links");
 
         const themeToggle =
-            document.getElementById(
-                "theme-toggle"
-            );
-
+            $("#theme-toggle");
 
         const topBtn =
-            document.getElementById(
-                "topBtn"
-            );
+            $("#topBtn");
 
 
-        const navItems =
-            document.querySelectorAll(
-                ".nav-links a"
-            );
+        /* =====================================================
+           REDUCED MOTION
+        ===================================================== */
 
-
-        const sections =
-            document.querySelectorAll(
-                "section[id]"
-            );
-
-
-        const revealElements =
-            document.querySelectorAll(
-                ".reveal, .fade-up"
-            );
-
-
-        /* ===================================================
-           ACCESSIBILITY / MOTION PREFERENCE
-        =================================================== */
-
-        const prefersReducedMotion =
+        const reducedMotion =
+            window.matchMedia &&
             window.matchMedia(
                 "(prefers-reduced-motion: reduce)"
             ).matches;
 
 
-        /* ===================================================
-           UTILITY
-        =================================================== */
+        /* =====================================================
+           BODY SAFETY
+        ===================================================== */
 
-        const wait = (milliseconds) =>
-            new Promise(
-                (resolve) => {
+        function revealBody() {
 
-                    window.setTimeout(
-                        resolve,
-                        milliseconds
-                    );
+            if (body) {
 
-                }
-            );
+                body.classList.add(
+                    "loaded"
+                );
 
+            }
 
-        /* ===================================================
-           PAGE LOADED STATE
-        =================================================== */
-
-        body.classList.add(
-            "loaded"
-        );
+        }
 
 
-        /* ===================================================
-           THEME SYSTEM
-        =================================================== */
+        /* =====================================================
+           THEME MANAGEMENT
+        ===================================================== */
 
         function updateThemeIcon() {
 
@@ -177,6 +223,12 @@ document.addEventListener(
                 return;
             }
 
+            const icon =
+                $("i", themeToggle);
+
+            if (!icon) {
+                return;
+            }
 
             const isLight =
                 body.classList.contains(
@@ -184,12 +236,15 @@ document.addEventListener(
                 );
 
 
-            themeToggle.innerHTML =
+            icon.classList.toggle(
+                "fa-sun",
                 isLight
+            );
 
-                    ? '<i class="fas fa-sun" aria-hidden="true"></i>'
-
-                    : '<i class="fas fa-moon" aria-hidden="true"></i>';
+            icon.classList.toggle(
+                "fa-moon",
+                !isLight
+            );
 
 
             themeToggle.setAttribute(
@@ -207,73 +262,64 @@ document.addEventListener(
                     : "Switch to light mode"
             );
 
+
+            themeToggle.setAttribute(
+                "aria-pressed",
+                String(isLight)
+            );
+
         }
 
 
-        function loadSavedTheme() {
+        function getInitialTheme() {
 
-            try {
-
-                const savedTheme =
-                    localStorage.getItem(
-                        "sdh-theme"
-                    );
-
-
-                if (
-                    savedTheme ===
-                    "light"
-                ) {
-
-                    body.classList.add(
-                        "light-mode"
-                    );
-
-                } else {
-
-                    body.classList.remove(
-                        "light-mode"
-                    );
-
-                }
-
-            } catch (error) {
-
-                console.warn(
-                    "SDH: Unable to read saved theme.",
-                    error
+            const savedTheme =
+                SDHStorage.get(
+                    "sdh-theme"
                 );
+
+
+            if (
+                savedTheme === "light" ||
+                savedTheme === "dark"
+            ) {
+
+                return savedTheme;
 
             }
 
 
-            updateThemeIcon();
+            if (
+                window.matchMedia &&
+                window.matchMedia(
+                    "(prefers-color-scheme: light)"
+                ).matches
+            ) {
+
+                return "light";
+
+            }
+
+
+            return "dark";
 
         }
 
 
-        function toggleTheme() {
+        function applyTheme(theme) {
 
-            const isLight =
-                body.classList.toggle(
+            if (
+                theme === "light"
+            ) {
+
+                body.classList.add(
                     "light-mode"
                 );
 
+            } else {
 
-            try {
-
-                localStorage.setItem(
-                    "sdh-theme",
-                    isLight
-                        ? "light"
-                        : "dark"
-                );
-
-            } catch (error) {
-
-                console.warn(
-                    "SDH: Unable to save theme preference.",
-                    error
+                body.classList.remove(
+                    "light-mode"
                 );
 
             }
@@ -284,28 +330,50 @@ document.addEventListener(
         }
 
 
-        loadSavedTheme();
+        applyTheme(
+            getInitialTheme()
+        );
 
 
         if (themeToggle) {
 
             themeToggle.addEventListener(
                 "click",
-                toggleTheme
+                function () {
+
+                    const isLight =
+                        body.classList.toggle(
+                            "light-mode"
+                        );
+
+
+                    SDHStorage.set(
+                        "sdh-theme",
+                        isLight
+                            ? "light"
+                            : "dark"
+                    );
+
+
+                    updateThemeIcon();
+
+                }
             );
 
         }
 
 
-        /* ===================================================
+        /* =====================================================
            MOBILE NAVIGATION
-        =================================================== */
+        ===================================================== */
 
-        function setMenuState(isOpen) {
+        function setMenuState(
+            isOpen
+        ) {
 
             if (
-                !navLinks ||
-                !menuBtn
+                !menuBtn ||
+                !navLinks
             ) {
 
                 return;
@@ -325,20 +393,37 @@ document.addEventListener(
             );
 
 
+            menuBtn.setAttribute(
+                "aria-label",
+                isOpen
+                    ? "Close Navigation"
+                    : "Open Navigation"
+            );
+
+
             const icon =
-                menuBtn.querySelector(
-                    "i"
-                );
+                $("i", menuBtn);
 
 
             if (icon) {
 
+                /*
+                 * Font Awesome 6 uses fa-xmark.
+                 */
                 icon.classList.toggle(
                     "fa-bars",
                     !isOpen
                 );
 
+                icon.classList.toggle(
+                    "fa-xmark",
+                    isOpen
+                );
 
+                /*
+                 * Compatibility with older
+                 * Font Awesome naming.
+                 */
                 icon.classList.toggle(
                     "fa-times",
                     isOpen
@@ -349,20 +434,31 @@ document.addEventListener(
         }
 
 
+        function closeMenu() {
+
+            setMenuState(false);
+
+        }
+
+
+        function openMenu() {
+
+            setMenuState(true);
+
+        }
+
+
         if (
             menuBtn &&
             navLinks
         ) {
 
-            menuBtn.setAttribute(
-                "aria-expanded",
-                "false"
-            );
+            setMenuState(false);
 
 
             menuBtn.addEventListener(
                 "click",
-                (event) => {
+                function (event) {
 
                     event.stopPropagation();
 
@@ -380,53 +476,62 @@ document.addEventListener(
                 }
             );
 
-        }
 
+            $$(".nav-links a")
+                .forEach(
+                    function (link) {
 
-        navItems.forEach(
-            (link) => {
+                        link.addEventListener(
+                            "click",
+                            function () {
 
-                link.addEventListener(
-                    "click",
-                    () => {
+                                closeMenu();
 
-                        setMenuState(
-                            false
+                            }
                         );
 
                     }
                 );
 
-            }
-        );
 
+            document.addEventListener(
+                "click",
+                function (event) {
+
+                    if (
+                        !menuBtn.contains(
+                            event.target
+                        ) &&
+                        !navLinks.contains(
+                            event.target
+                        )
+                    ) {
+
+                        closeMenu();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           ESCAPE KEY
+        ===================================================== */
 
         document.addEventListener(
-            "click",
-            (event) => {
+            "keydown",
+            function (event) {
 
                 if (
-                    !menuBtn ||
-                    !navLinks
+                    event.key === "Escape"
                 ) {
 
-                    return;
+                    closeMenu();
 
-                }
-
-
-                if (
-                    !menuBtn.contains(
-                        event.target
-                    ) &&
-                    !navLinks.contains(
-                        event.target
-                    )
-                ) {
-
-                    setMenuState(
-                        false
-                    );
+                    closeNotice();
 
                 }
 
@@ -434,9 +539,36 @@ document.addEventListener(
         );
 
 
-        /* ===================================================
-           HEADER SCROLL STATE
-        =================================================== */
+        /* =====================================================
+           RESPONSIVE NAVIGATION SAFETY
+        ===================================================== */
+
+        function handleResize() {
+
+            if (
+                window.innerWidth >=
+                SDH_CONFIG.desktopBreakpoint
+            ) {
+
+                closeMenu();
+
+            }
+
+        }
+
+
+        window.addEventListener(
+            "resize",
+            handleResize,
+            {
+                passive: true
+            }
+        );
+
+
+        /* =====================================================
+           HEADER SCROLL EFFECT
+        ===================================================== */
 
         function updateHeader() {
 
@@ -453,62 +585,53 @@ document.addEventListener(
         }
 
 
-        /* ===================================================
-           BACK TO TOP
-        =================================================== */
+        /* =====================================================
+           SCROLL REVEAL
+        ===================================================== */
 
-        function updateBackToTop() {
+        const revealElements =
+            $$(".reveal, .fade-up");
 
-            if (!topBtn) {
+
+        function revealOnScroll() {
+
+            if (!revealElements.length) {
                 return;
             }
 
 
-            const isVisible =
-                window.scrollY > 500;
+            const trigger =
+                window.innerHeight *
+                (
+                    1 -
+                    SDH_CONFIG.revealThreshold
+                );
 
 
-            topBtn.classList.toggle(
-                "show",
-                isVisible
-            );
+            revealElements.forEach(
+                function (element) {
+
+                    const position =
+                        element.getBoundingClientRect()
+                            .top;
 
 
-            topBtn.setAttribute(
-                "aria-hidden",
-                String(!isVisible)
-            );
+                    if (
+                        position <
+                        trigger
+                    ) {
 
+                        addClass(
+                            element,
+                            "active"
+                        );
 
-            /*
-             * Prevent an invisible back-to-top
-             * button from receiving keyboard focus.
-             */
+                        addClass(
+                            element,
+                            "show"
+                        );
 
-            topBtn.tabIndex =
-                isVisible
-                    ? 0
-                    : -1;
-
-        }
-
-
-        if (topBtn) {
-
-            topBtn.addEventListener(
-                "click",
-                () => {
-
-                    window.scrollTo({
-
-                        top: 0,
-
-                        behavior:
-                            prefersReducedMotion
-                                ? "auto"
-                                : "smooth"
-
-                    });
+                    }
 
                 }
             );
@@ -516,35 +639,74 @@ document.addEventListener(
         }
 
 
-        /* ===================================================
+        /* =====================================================
+           REDUCED-MOTION REVEAL
+        ===================================================== */
+
+        if (
+            reducedMotion
+        ) {
+
+            revealElements.forEach(
+                function (element) {
+
+                    addClass(
+                        element,
+                        "active"
+                    );
+
+                    addClass(
+                        element,
+                        "show"
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
            ACTIVE NAVIGATION
-        =================================================== */
+        ===================================================== */
 
-        function updateActiveNavigation() {
+        const sections =
+            $$("section[id]");
 
-            if (!sections.length) {
+        const navItems =
+            $$(".nav-links a");
+
+
+        function updateActiveNav() {
+
+            if (
+                !sections.length ||
+                !navItems.length
+            ) {
+
                 return;
+
             }
 
 
-            const scrollPosition =
-                window.scrollY +
-                CONFIG.scrollOffset;
-
-
-            let currentId =
+            let currentSection =
                 "";
 
 
             sections.forEach(
-                (section) => {
+                function (section) {
+
+                    const sectionTop =
+                        section.offsetTop -
+                        SDH_CONFIG.scrollOffset;
+
 
                     if (
-                        scrollPosition >=
-                        section.offsetTop
+                        window.scrollY >=
+                        sectionTop
                     ) {
 
-                        currentId =
+                        currentSection =
                             section.id;
 
                     }
@@ -554,17 +716,18 @@ document.addEventListener(
 
 
             navItems.forEach(
-                (link) => {
+                function (link) {
 
-                    const href =
+                    const target =
                         link.getAttribute(
                             "href"
                         );
 
 
                     const isActive =
-                        href ===
-                        `#${currentId}`;
+                        target ===
+                        "#" +
+                        currentSection;
 
 
                     link.classList.toggle(
@@ -578,281 +741,114 @@ document.addEventListener(
         }
 
 
-        /* ===================================================
-           SCROLL REVEAL
-        =================================================== */
+        /* =====================================================
+           BACK TO TOP
+        ===================================================== */
 
-        function initializeReveal() {
+        function updateTopButton() {
 
-            if (
-                !revealElements.length
-            ) {
-
+            if (!topBtn) {
                 return;
-
             }
 
 
-            /* ------------------------------------------------
-               REDUCED MOTION
-            ------------------------------------------------ */
-
-            if (
-                prefersReducedMotion
-            ) {
-
-                revealElements.forEach(
-                    (element) => {
-
-                        element.classList.add(
-                            "active",
-                            "show"
-                        );
-
-                    }
-                );
-
-
-                return;
-
-            }
-
-
-            /* ------------------------------------------------
-               INTERSECTION OBSERVER
-            ------------------------------------------------ */
-
-            if (
-                "IntersectionObserver"
-                in window
-            ) {
-
-                const revealObserver =
-                    new IntersectionObserver(
-
-                        (
-                            entries,
-                            observer
-                        ) => {
-
-                            entries.forEach(
-                                (entry) => {
-
-                                    if (
-                                        !entry.isIntersecting
-                                    ) {
-
-                                        return;
-
-                                    }
-
-
-                                    entry.target.classList.add(
-                                        "active",
-                                        "show"
-                                    );
-
-
-                                    observer.unobserve(
-                                        entry.target
-                                    );
-
-                                }
-                            );
-
-                        },
-
-                        {
-                            threshold:
-                                CONFIG.revealThreshold
-                        }
-
-                    );
-
-
-                revealElements.forEach(
-                    (element) => {
-
-                        revealObserver.observe(
-                            element
-                        );
-
-                    }
-                );
-
-
-            } else {
-
-                /* --------------------------------------------
-                   FALLBACK
-                -------------------------------------------- */
-
-                revealElements.forEach(
-                    (element) => {
-
-                        element.classList.add(
-                            "active",
-                            "show"
-                        );
-
-                    }
-                );
-
-            }
+            topBtn.classList.toggle(
+                "show",
+                window.scrollY >
+                SDH_CONFIG.topButtonThreshold
+            );
 
         }
 
 
-        initializeReveal();
+        if (topBtn) {
+
+            topBtn.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        reducedMotion
+                    ) {
+
+                        window.scrollTo(
+                            0,
+                            0
+                        );
+
+                    } else {
+
+                        window.scrollTo({
+
+                            top: 0,
+
+                            behavior: "smooth"
+
+                        });
+
+                    }
+
+                }
+            );
+
+        }
 
 
-        /* ===================================================
-           EXTERNAL LINK SECURITY
-        =================================================== */
+        /* =====================================================
+           EXTERNAL LINK SAFETY
+        ===================================================== */
 
-        document
-            .querySelectorAll(
-                'a[target="_blank"]'
-            )
-            .forEach(
-                (link) => {
+        $$(
+            'a[target="_blank"]'
+        ).forEach(
+            function (link) {
 
-                    link.setAttribute(
-                        "rel",
-                        "noopener noreferrer"
+                link.setAttribute(
+                    "rel",
+                    "noopener noreferrer"
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           IMAGE SAFETY
+        ===================================================== */
+
+        $$("img").forEach(
+            function (image) {
+
+                if (
+                    !image.hasAttribute(
+                        "loading"
+                    )
+                ) {
+
+                    image.setAttribute(
+                        "loading",
+                        "lazy"
                     );
 
                 }
-            );
+
+            }
+        );
 
 
-        /* ===================================================
-           IMAGE HANDLING
-        =================================================== */
-
-        document
-            .querySelectorAll(
-                "img"
-            )
-            .forEach(
-                (image) => {
-
-                    const isHeroImage =
-                        Boolean(
-                            image.closest(
-                                ".hero"
-                            )
-                        );
-
-
-                    const isSplashImage =
-                        Boolean(
-                            image.closest(
-                                ".sdh-splash"
-                            )
-                        );
-
-
-                    const isLogo =
-                        image.classList.contains(
-                            "logo"
-                        ) ||
-                        Boolean(
-                            image.closest(
-                                ".logo"
-                            )
-                        );
-
-
-                    /*
-                     * Important images should
-                     * not be lazy-loaded.
-                     */
-
-                    if (
-                        isHeroImage ||
-                        isSplashImage ||
-                        isLogo
-                    ) {
-
-                        if (
-                            image.getAttribute(
-                                "loading"
-                            ) === "lazy"
-                        ) {
-
-                            image.removeAttribute(
-                                "loading"
-                            );
-
-                        }
-
-
-                        return;
-
-                    }
-
-
-                    /*
-                     * Other images may use
-                     * lazy loading.
-                     */
-
-                    if (
-                        !image.hasAttribute(
-                            "loading"
-                        )
-                    ) {
-
-                        image.setAttribute(
-                            "loading",
-                            "lazy"
-                        );
-
-                    }
-
-                }
-            );
-
-
-        /* ===================================================
-           SCROLL CONTROLLER
-        =================================================== */
-
-        let scrollTicking =
-            false;
-
+        /* =====================================================
+           SCROLL HANDLER
+        ===================================================== */
 
         function handleScroll() {
 
-            if (
-                scrollTicking
-            ) {
+            updateHeader();
 
-                return;
+            revealOnScroll();
 
-            }
+            updateActiveNav();
 
-
-            scrollTicking =
-                true;
-
-
-            window.requestAnimationFrame(
-                () => {
-
-                    updateHeader();
-
-                    updateBackToTop();
-
-                    updateActiveNavigation();
-
-
-                    scrollTicking =
-                        false;
-
-                }
-            );
+            updateTopButton();
 
         }
 
@@ -866,709 +862,164 @@ document.addEventListener(
         );
 
 
-        /*
-         * Set initial state immediately.
-         */
+        /* =====================================================
+           INITIAL PAGE STATE
+        ===================================================== */
 
-        updateHeader();
-
-        updateBackToTop();
-
-        updateActiveNavigation();
+        handleScroll();
 
 
-        /* ===================================================
-           SPLASH SCREEN
-           
-           REQUIRED HTML HOOKS:
+        /* =====================================================
+           PLATFORM UPDATE NOTICE
+        ===================================================== */
 
-           #sdh-splash
-           .sdh-typing-text
-           .sdh-splash-spinner
-           .sdh-splash-message
-           .sdh-loading-text
-           .sdh-loading-dots
-           #sdh-notice-modal
-           .sdh-notice-btn
-
-           STAGE CLASSES:
-
-           .sdh-stage-spinner
-           .sdh-stage-welcome
-           .sdh-stage-preparing
-           .hidden
-
-           VISIBILITY CLASS:
-
-           .sdh-stage-visible
-        =================================================== */
-
-        async function initializeSplash() {
-
-            const splash =
-                document.getElementById(
-                    "sdh-splash"
-                );
+        const notice =
+            $("#sdh-notice-modal");
 
 
-            const typingText =
-                document.querySelector(
-                    ".sdh-typing-text"
-                );
+        const noticeButton =
+            $(
+                ".sdh-notice-btn, #sdh-notice-ok"
+            );
 
 
-            const spinner =
-                document.querySelector(
-                    ".sdh-splash-spinner"
-                );
+        function openNotice() {
 
-
-            const welcome =
-                document.querySelector(
-                    ".sdh-splash-message"
-                );
-
-
-            const preparing =
-                document.querySelector(
-                    ".sdh-loading-text"
-                );
-
-
-            const loadingDots =
-                document.querySelector(
-                    ".sdh-loading-dots"
-                );
-
-
-            const notice =
-                document.getElementById(
-                    "sdh-notice-modal"
-                );
-
-
-            const noticeButton =
-                document.querySelector(
-                    ".sdh-notice-btn"
-                );
-
-
-            /* =================================================
-               SPLASH NOT PRESENT
-            ================================================= */
-
-            if (!splash) {
-
+            if (!notice) {
                 return;
-
             }
+
+
+            notice.classList.remove(
+                "sdh-notice-hidden"
+            );
+
+
+            notice.setAttribute(
+                "aria-hidden",
+                "false"
+            );
 
 
             /*
-             * If the typing element is missing,
-             * never trap the website behind
-             * an incomplete splash screen.
+             * Prevent background scrolling while
+             * the platform notice is active.
              */
+            body.style.overflow =
+                "hidden";
 
-            if (!typingText) {
 
-                splash.classList.add(
-                    "hidden"
+            if (noticeButton) {
+
+                window.setTimeout(
+                    function () {
+
+                        noticeButton.focus();
+
+                    },
+                    100
                 );
 
+            }
 
+        }
+
+
+        function closeNotice() {
+
+            if (!notice) {
                 return;
-
             }
 
 
-            /* =================================================
-               NOTICE INITIAL STATE
-            ================================================= */
-
-            if (notice) {
-
-                notice.classList.add(
-                    "sdh-notice-hidden"
-                );
-
-
-                notice.setAttribute(
-                    "aria-hidden",
-                    "true"
-                );
-
-            }
-
-
-            /* =================================================
-               RESET SPLASH STATE
-            ================================================= */
-
-            splash.classList.remove(
-
-                "hidden",
-
-                "sdh-stage-spinner",
-
-                "sdh-stage-welcome",
-
-                "sdh-stage-preparing"
-
+            notice.classList.add(
+                "sdh-notice-hidden"
             );
 
 
-            typingText.classList.remove(
-                "sdh-stage-visible"
+            notice.setAttribute(
+                "aria-hidden",
+                "true"
             );
 
 
-            typingText.textContent =
+            /*
+             * Restore normal page scrolling.
+             */
+            body.style.overflow =
                 "";
 
-
-            if (spinner) {
-
-                spinner.classList.remove(
-                    "sdh-stage-visible"
-                );
-
-            }
+        }
 
 
-            if (welcome) {
+        if (noticeButton) {
 
-                welcome.classList.remove(
-                    "sdh-stage-visible"
-                );
+            noticeButton.addEventListener(
+                "click",
+                function () {
 
-            }
-
-
-            if (preparing) {
-
-                preparing.classList.remove(
-                    "sdh-stage-visible"
-                );
-
-            }
-
-
-            if (loadingDots) {
-
-                loadingDots.classList.remove(
-                    "sdh-stage-visible"
-                );
-
-
-                loadingDots.textContent =
-                    "";
-
-            }
-
-
-            /* =================================================
-               STAGE 1 — TYPE BRAND
-            ================================================= */
-
-            async function typeBrand() {
-
-                typingText.classList.add(
-                    "sdh-stage-visible"
-                );
-
-
-                const brand =
-                    "Success Digital Hub";
-
-
-                for (
-                    const character
-                    of brand
-                ) {
-
-                    typingText.textContent +=
-                        character;
-
-
-                    await wait(
-
-                        prefersReducedMotion
-                            ? 150
-                            : CONFIG.splashTypingSpeed
-
-                    );
+                    closeNotice();
 
                 }
-
-            }
-
-
-            /* =================================================
-               STAGE 2 — SPINNER
-            ================================================= */
-
-            async function showSpinnerStage() {
-
-                splash.classList.add(
-                    "sdh-stage-spinner"
-                );
-
-
-                if (spinner) {
-
-                    spinner.classList.add(
-                        "sdh-stage-visible"
-                    );
-
-                }
-
-
-                await wait(
-
-                    prefersReducedMotion
-                        ? 2000
-                        : CONFIG.splashSpinnerDuration
-
-                );
-
-
-                /*
-                 * Remove both before
-                 * moving to Welcome.
-                 */
-
-                typingText.classList.remove(
-                    "sdh-stage-visible"
-                );
-
-
-                if (spinner) {
-
-                    spinner.classList.remove(
-                        "sdh-stage-visible"
-                    );
-
-                }
-
-            }
-
-
-            /* =================================================
-               STAGE 3 — WELCOME
-            ================================================= */
-
-            async function showWelcomeStage() {
-
-                splash.classList.remove(
-                    "sdh-stage-spinner"
-                );
-
-
-                splash.classList.add(
-                    "sdh-stage-welcome"
-                );
-
-
-                if (welcome) {
-
-                    welcome.classList.add(
-                        "sdh-stage-visible"
-                    );
-
-                }
-
-
-                await wait(
-
-                    prefersReducedMotion
-                        ? 3500
-                        : CONFIG.splashWelcomeDuration
-
-                );
-
-
-                if (welcome) {
-
-                    welcome.classList.remove(
-                        "sdh-stage-visible"
-                    );
-
-                }
-
-            }
-
-
-           /* =================================================
-   STAGE 4 — PREPARING + ANIMATED DOTS
-================================================= */
-
-async function showPreparingStage() {
-
-    console.log("🔵 SDH STAGE 4 STARTED");
-
-
-    /* ------------------------------------------------
-       SWITCH TO PREPARING STAGE
-    ------------------------------------------------ */
-
-    splash.classList.remove(
-        "sdh-stage-welcome"
-    );
-
-    splash.classList.add(
-        "sdh-stage-preparing"
-    );
-
-
-    /* ------------------------------------------------
-       SHOW PREPARING TEXT
-    ------------------------------------------------ */
-
-    if (preparing) {
-
-        preparing.classList.add(
-            "sdh-stage-visible"
-        );
-
-    }
-
-
-    /* ------------------------------------------------
-       VERIFY DOT ELEMENT
-    ------------------------------------------------ */
-
-    if (!loadingDots) {
-
-        console.error(
-            "❌ SDH DOTS ERROR → .sdh-loading-dots NOT FOUND"
-        );
-
-        await wait(
-            CONFIG.splashPreparingDuration
-        );
-
-        if (preparing) {
-
-            preparing.classList.remove(
-                "sdh-stage-visible"
             );
 
         }
 
-        return;
-
-    }
-
-
-    console.log(
-        "✅ SDH DOT ELEMENT FOUND:",
-        loadingDots
-    );
-
-
-    /* ------------------------------------------------
-       RESET DOTS
-    ------------------------------------------------ */
-
-    loadingDots.textContent = "";
-
-    loadingDots.style.visibility =
-        "visible";
-
-    loadingDots.style.opacity =
-        "1";
-
-
-    /* ------------------------------------------------
-       CHECK REDUCED MOTION
-    ------------------------------------------------ */
-
-    console.log(
-        "🎛️ SDH REDUCED MOTION:",
-        prefersReducedMotion
-    );
-
-
-    /* ------------------------------------------------
-       REDUCED MOTION MODE
-    ------------------------------------------------ */
-
-    if (prefersReducedMotion) {
 
         /*
-         * Accessibility behavior:
-         * do not continuously animate.
+         * Clicking directly on the modal backdrop
+         * does NOT automatically close it.
+         *
+         * The user should intentionally press
+         * OK / Continue.
          */
+        if (notice) {
 
-        loadingDots.textContent =
-            "...";
-
-
-        await wait(
-            CONFIG.splashPreparingDuration
-        );
-
-    }
-
-
-    /* ------------------------------------------------
-       NORMAL ANIMATED MODE
-    ------------------------------------------------ */
-
-    else {
-
-        let dotCount = 1;
-
-
-        /*
-         * Show the first dot immediately.
-         */
-
-        loadingDots.textContent =
-            ".";
-
-
-        console.log(
-            "🟢 SDH DOT ANIMATION STARTED"
-        );
-
-
-        /*
-         * Change the number of dots repeatedly.
-         */
-
-        const dotInterval =
-            window.setInterval(
-                () => {
-
-                    dotCount++;
-
-                    if (
-                        dotCount > 3
-                    ) {
-
-                        dotCount = 1;
-
-                    }
-
-
-                    loadingDots.textContent =
-                        ".".repeat(
-                            dotCount
-                        );
-
-
-                    console.log(
-                        "🔵 SDH DOT COUNT:",
-                        dotCount
-                    );
-
-                },
-                CONFIG.splashDotsSpeed
-            );
-
-
-        /*
-         * Keep the animation running
-         * for the configured dot duration.
-         */
-
-        await wait(
-            CONFIG.splashDotsDuration
-        );
-
-
-        /*
-         * Always stop the interval.
-         */
-
-        window.clearInterval(
-            dotInterval
-        );
-
-
-        console.log(
-            "🛑 SDH DOT ANIMATION STOPPED"
-        );
-
-
-        /*
-         * Remove the dots after
-         * their animation period.
-         */
-
-        loadingDots.textContent =
-            "";
-
-
-        /*
-         * If the Preparing stage is
-         * longer than the dot animation,
-         * wait for the remaining time.
-         */
-
-        const remainingPreparationTime =
-            Math.max(
-                0,
-                CONFIG.splashPreparingDuration -
-                CONFIG.splashDotsDuration
-            );
-
-
-        if (
-            remainingPreparationTime > 0
-        ) {
-
-            await wait(
-                remainingPreparationTime
+            notice.setAttribute(
+                "aria-hidden",
+                "true"
             );
 
         }
 
-    }
+
+        /* =====================================================
+           PLACEHOLDER LINK PROTECTION
+        ===================================================== */
+
+        const placeholderLinks =
+            $$(
+                'a[href="#"],' +
+                'a[href="https://YOUR_BEHANCE_URL"]'
+            );
 
 
-    /* ------------------------------------------------
-       CLEAN UP
-    ------------------------------------------------ */
+        placeholderLinks.forEach(
+            function (link) {
 
-    loadingDots.textContent =
-        "";
-
-
-    if (preparing) {
-
-        preparing.classList.remove(
-            "sdh-stage-visible"
-        );
-
-    }
-
-
-    console.log(
-        "✅ SDH STAGE 4 COMPLETE"
-    );
-
-}
-
-            /* =================================================
-               STAGE 5 — CLOSE SPLASH
-            ================================================= */
-
-            async function closeSplash() {
-
-                splash.classList.remove(
-
-                    "sdh-stage-spinner",
-
-                    "sdh-stage-welcome",
-
-                    "sdh-stage-preparing"
-
-                );
-
-
-                splash.classList.add(
-                    "hidden"
-                );
-
-
-                await wait(
-                    CONFIG.splashExitDuration
-                );
-
-            }
-
-
-            /* =================================================
-               DEVELOPMENT NOTICE
-            ================================================= */
-
-            function showNotice() {
-
-                if (!notice) {
-                    return;
-                }
-
-
-                notice.classList.remove(
-                    "sdh-notice-hidden"
-                );
-
-
-                notice.setAttribute(
-                    "aria-hidden",
-                    "false"
-                );
-
-
-                if (noticeButton) {
-
-                    noticeButton.focus();
-
-                }
-
-            }
-
-
-            /* =================================================
-               NOTICE BUTTON
-            ================================================= */
-
-            if (
-                noticeButton &&
-                notice
-            ) {
-
-                noticeButton.addEventListener(
+                link.addEventListener(
                     "click",
-                    () => {
+                    function (event) {
 
-                        notice.classList.add(
-                            "sdh-notice-hidden"
-                        );
-
-
-                        notice.setAttribute(
-                            "aria-hidden",
-                            "true"
-                        );
-
-                    }
-                );
-
-            }
+                        const href =
+                            link.getAttribute(
+                                "href"
+                            );
 
 
-            /* =================================================
-               ESCAPE KEY — CLOSE NOTICE
-            ================================================= */
-
-            if (notice) {
-
-                document.addEventListener(
-                    "keydown",
-                    (event) => {
-
+                        /*
+                         * Only intercept obvious
+                         * placeholder destinations.
+                         */
                         if (
-                            event.key ===
-                                "Escape" &&
-
-                            !notice.classList.contains(
-                                "sdh-notice-hidden"
-                            )
+                            href === "#" ||
+                            href ===
+                            "https://YOUR_BEHANCE_URL"
                         ) {
 
-                            notice.classList.add(
-                                "sdh-notice-hidden"
-                            );
+                            event.preventDefault();
 
-
-                            notice.setAttribute(
-                                "aria-hidden",
-                                "true"
-                            );
+                            openNotice();
 
                         }
 
@@ -1576,109 +1027,520 @@ async function showPreparingStage() {
                 );
 
             }
+        );
 
 
-            /* =================================================
-               COMPLETE SPLASH SEQUENCE
-            ================================================= */
+        /* =====================================================
+           SPLASH SCREEN
+           
+           FINAL SDH SEQUENCE:
 
-            try {
+           1. Show splash
+           2. Spinner runs slowly
+           3. Spinner disappears
+           4. Welcome message types
+           5. Hold welcome for a short period
+           6. Splash disappears
+           7. Platform update notice appears
+           8. User presses OK / Continue
+           9. Full portfolio becomes available
+        ===================================================== */
 
-                /*
-                 * 1. Type brand.
-                 */
-
-                await typeBrand();
-
-
-                /*
-                 * 2. Pause after typing.
-                 */
-
-                await wait(
-
-                    prefersReducedMotion
-                        ? 100
-                        : CONFIG.splashBrandPause
-
-                );
+        const splash =
+            $("#sdh-splash");
 
 
-                /*
-                 * 3. Spinner.
-                 */
-
-                await showSpinnerStage();
-
-
-                /*
-                 * 4. Welcome.
-                 */
-
-                await showWelcomeStage();
+        /*
+         * Current / updated splash elements.
+         */
+        const spinner =
+            $(".sdh-splash-spinner");
 
 
-                /*
-                 * 5. Preparing + animated dots.
-                 */
-
-                await showPreparingStage();
+        const welcome =
+            $(".sdh-splash-message");
 
 
-                /*
-                 * 6. Remove splash.
-                 */
-
-                await closeSplash();
-
-
-                /*
-                 * 7. Show development notice.
-                 */
-
-                showNotice();
+        /*
+         * Legacy typing element is supported defensively.
+         * If the updated HTML still contains it, it will
+         * not cause an error.
+         */
+        const legacyTypingText =
+            $(".sdh-typing-text");
 
 
-            } catch (error) {
-
-                /*
-                 * Safety fallback.
-                 *
-                 * Never leave the website trapped
-                 * behind the splash screen.
-                 */
-
-                console.error(
-                    "SDH Splash error:",
-                    error
-                );
+        const preparing =
+            $(".sdh-loading-text");
 
 
-                splash.classList.remove(
-
-                    "sdh-stage-spinner",
-
-                    "sdh-stage-welcome",
-
-                    "sdh-stage-preparing"
-
-                );
+        const loadingDots =
+            $(".sdh-loading-dots");
 
 
-                splash.classList.add(
-                    "hidden"
-                );
+        /* =====================================================
+           SPLASH ELEMENT VISIBILITY
+        ===================================================== */
+
+        function setSplashElementVisible(
+            element,
+            visible
+        ) {
+
+            if (!element) {
+                return;
+            }
+
+
+            element.style.display =
+                visible
+                    ? ""
+                    : "none";
+
+
+            element.classList.toggle(
+                "sdh-stage-visible",
+                visible
+            );
+
+        }
+
+
+        /* =====================================================
+           RESET SPLASH
+        ===================================================== */
+
+        function resetSplash() {
+
+            if (!splash) {
+                return;
+            }
+
+
+            splash.classList.remove(
+                "hidden",
+                "sdh-stage-spinner",
+                "sdh-stage-welcome",
+                "sdh-stage-preparing"
+            );
+
+
+            /*
+             * Spinner starts hidden.
+             */
+            setSplashElementVisible(
+                spinner,
+                false
+            );
+
+
+            /*
+             * Welcome starts hidden.
+             */
+            setSplashElementVisible(
+                welcome,
+                false
+            );
+
+
+            /*
+             * Preparing stage is no longer part
+             * of the main SDH startup sequence,
+             * but we hide it defensively if it exists.
+             */
+            setSplashElementVisible(
+                preparing,
+                false
+            );
+
+
+            if (loadingDots) {
+
+                loadingDots.textContent =
+                    "";
+
+            }
+
+
+            /*
+             * Hide any legacy typing element.
+             */
+            if (legacyTypingText) {
+
+                legacyTypingText.textContent =
+                    "";
 
             }
 
         }
 
 
-        /* ===================================================
-           START SPLASH CONTROLLER
-        =================================================== */
+        /* =====================================================
+           SHOW SPINNER
+        ===================================================== */
 
-        initializeSplash();
+        async function runSpinner() {
+
+            if (!splash) {
+                return;
+            }
+
+
+            splash.classList.add(
+                "sdh-stage-spinner"
+            );
+
+
+            setSplashElementVisible(
+                spinner,
+                true
+            );
+
+
+            /*
+             * Slower spinner duration.
+             */
+            await wait(
+                reducedMotion
+                    ? 800
+                    : SDH_CONFIG.splash.spinnerDuration
+            );
+
+
+            setSplashElementVisible(
+                spinner,
+                false
+            );
+
+
+            splash.classList.remove(
+                "sdh-stage-spinner"
+            );
+
+        }
+
+
+        /* =====================================================
+           GET WELCOME MESSAGE
+        ===================================================== */
+
+        function getWelcomeMessage() {
+
+            /*
+             * If HTML contains an explicit data attribute,
+             * use it first.
+             *
+             * Example:
+             * data-message="Welcome to Success Digital Hub"
+             */
+            if (welcome) {
+
+                const customMessage =
+                    welcome.getAttribute(
+                        "data-message"
+                    );
+
+
+                if (
+                    customMessage &&
+                    customMessage.trim()
+                ) {
+
+                    return customMessage.trim();
+
+                }
+
+
+                /*
+                 * Otherwise use the text already
+                 * written inside the HTML.
+                 */
+                const existingText =
+                    welcome.textContent.trim();
+
+
+                if (existingText) {
+
+                    return existingText;
+
+                }
+
+            }
+
+
+            /*
+             * Safe SDH fallback.
+             */
+            return "Welcome to Success Digital Hub";
+
+        }
+
+
+        /* =====================================================
+           TYPE WELCOME MESSAGE
+        ===================================================== */
+
+        async function typeWelcome() {
+
+            if (!welcome) {
+                return;
+            }
+
+
+            const message =
+                getWelcomeMessage();
+
+
+            /*
+             * Remove existing text before typing.
+             */
+            welcome.textContent =
+                "";
+
+
+            /*
+             * Make welcome message visible.
+             */
+            splash.classList.add(
+                "sdh-stage-welcome"
+            );
+
+
+            setSplashElementVisible(
+                welcome,
+                true
+            );
+
+
+            /*
+             * Reduced motion:
+             * display immediately instead of
+             * animating character-by-character.
+             */
+            if (reducedMotion) {
+
+                welcome.textContent =
+                    message;
+
+                await wait(900);
+
+                return;
+
+            }
+
+
+            /*
+             * Actual typing effect.
+             */
+            for (
+                const character
+                of message
+            ) {
+
+                welcome.textContent +=
+                    character;
+
+
+                await wait(
+                    SDH_CONFIG.splash
+                        .welcomeTypingSpeed
+                );
+
+            }
+
+
+            /*
+             * Keep the complete welcome
+             * message visible for a short while.
+             */
+            await wait(
+                SDH_CONFIG.splash
+                    .welcomeHoldDuration
+            );
+
+        }
+
+
+        /* =====================================================
+           CLOSE SPLASH
+        ===================================================== */
+
+        async function closeSplash() {
+
+            if (!splash) {
+                return;
+            }
+
+
+            /*
+             * Hide splash.
+             */
+            splash.classList.add(
+                "hidden"
+            );
+
+
+            /*
+             * Allow CSS transition to complete.
+             */
+            await wait(
+                reducedMotion
+                    ? 0
+                    : SDH_CONFIG.splash
+                        .exitDuration
+            );
+
+
+            /*
+             * Ensure it remains inaccessible
+             * after the transition.
+             */
+            splash.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+
+            /*
+             * Restore scrolling.
+             */
+            body.style.overflow =
+                "";
+
+        }
+
+
+        /* =====================================================
+           COMPLETE SPLASH SEQUENCE
+        ===================================================== */
+
+        async function runSplashSequence() {
+
+            /*
+             * If the splash is absent, the main
+             * portfolio should still function.
+             */
+            if (!splash) {
+
+                revealBody();
+
+                /*
+                 * Still show the platform notice
+                 * on every refresh.
+                 */
+                openNotice();
+
+                return;
+
+            }
+
+
+            /*
+             * Keep the page locked while splash
+             * is running.
+             */
+            body.style.overflow =
+                "hidden";
+
+
+            splash.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+
+            resetSplash();
+
+
+            /*
+             * STEP 1
+             * Slower spinner.
+             */
+            await runSpinner();
+
+
+            /*
+             * STEP 2
+             * Typed welcome message.
+             */
+            await typeWelcome();
+
+
+            /*
+             * STEP 3
+             * Close splash.
+             */
+            await closeSplash();
+
+
+            /*
+             * STEP 4
+             * Immediately after splash:
+             * platform update notice.
+             */
+            openNotice();
+
+        }
+
+
+        /* =====================================================
+           SPLASH FAIL-SAFE
+        ===================================================== */
+
+        function splashFailSafe(
+            error
+        ) {
+
+            console.error(
+                "SDH Splash error:",
+                error
+            );
+
+
+            if (splash) {
+
+                splash.classList.add(
+                    "hidden"
+                );
+
+
+                splash.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+            }
+
+
+            body.style.overflow =
+                "";
+
+
+            revealBody();
+
+
+            /*
+             * Even if the splash fails,
+             * the platform notice must still
+             * appear on this refresh.
+             */
+            openNotice();
+
+        }
+
+
+        /* =====================================================
+           START SDH
+        ===================================================== */
+
+        revealBody();
+
+
+        runSplashSequence()
+            .catch(
+                splashFailSafe
+            );
+
 
     }
 );
