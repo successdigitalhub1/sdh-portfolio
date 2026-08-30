@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://successdigitalhub1.github.io/sdh-portfolio/sitemap.xml
