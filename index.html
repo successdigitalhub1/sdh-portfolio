@@ -96,6 +96,7 @@
 <link rel="preload"
       as="image"
       href="favicon.png"
+      type="image/png"
       fetchpriority="high">
 
 
@@ -138,9 +139,12 @@
         <div class="sdh-splash-icon-wrap">
 
             <img src="favicon.png"
-                 alt="Success Digital Hub"
-                 class="sdh-splash-icon">
-
+     alt="Success Digital Hub"
+     class="sdh-splash-icon"
+     loading="eager"
+     fetchpriority="high"
+     decoding="async">
+          
         </div>
 
 
@@ -369,15 +373,20 @@
                 <!-- Dark Mode Hero Image -->
 
                 <img src="hero-image.png"
-                     alt="Success Digital Hub"
-                     class="hero-logo-dark">
+     alt="Success Digital Hub"
+     class="hero-logo-dark"
+     loading="eager"
+     fetchpriority="high"
+     decoding="async">
 
 
                 <!-- Light Mode Hero Image -->
 
-                <img src="hero-image-light.png"
-                     alt="Success Digital Hub"
-                     class="hero-logo-light">
+               <img src="hero-image-light.png"
+     alt="Success Digital Hub"
+     class="hero-logo-light"
+     loading="lazy"
+     decoding="async">
 
             </div>
 
@@ -418,8 +427,10 @@
                 <div class="about-image">
 
                     <img src="about-image.png"
-                         alt="About Success Digital Hub"
-                         loading="lazy">
+     alt="About Success Digital Hub"
+     loading="eager"
+     fetchpriority="high"
+     decoding="async">
 
                 </div>
 
