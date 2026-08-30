@@ -812,41 +812,6 @@ document.addEventListener(
         );
 
 
-      /* =====================================================
-   IMAGE SAFETY
-===================================================== */
-
-/*
- * Only images that are NOT part of the
- * initial hero/splash area should be lazy-loaded.
- */
-
-$$("img").forEach(
-    function (image) {
-
-        if (
-            image.classList.contains("hero-logo-light") ||
-            image.classList.contains("hero-logo-dark") ||
-            image.classList.contains("sdh-splash-icon")
-        ) {
-            return;
-        }
-
-        if (
-            !image.hasAttribute("loading")
-        ) {
-
-            image.setAttribute(
-                "loading",
-                "lazy"
-            );
-
-        }
-
-    }
-);
-
-
         /* =====================================================
            SCROLL HANDLER
         ===================================================== */
