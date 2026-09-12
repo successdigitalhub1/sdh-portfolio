@@ -1,24 +1,14 @@
 /* ===========================================================
    SUCCESS DIGITAL HUB (SDH)
-   CONSOLIDATED STYLE.CSS
-   Desktop Layout + Splash Screen Refinement
+   REFINED STYLE.CSS
+
+   Compatible with:
+   - Current consolidated index.html
+   - Refined consolidated script.js
 
    Author: Success Osawemi Afeisume
    Developed with AI Assistance
-
-   Compatible with:
-   - Consolidated index.html
-   - Consolidated script.js
 =========================================================== */
-
-
-/* ===========================================================
-   GOOGLE FONT
-=========================================================== */
-
-@import url(
-  'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap'
-);
 
 
 /* ===========================================================
@@ -41,12 +31,16 @@
 
   --border: rgba(255, 255, 255, .08);
 
-  --shadow: 0 12px 40px rgba(0, 0, 0, .25);
+  --shadow:
+    0 12px 40px rgba(0, 0, 0, .25);
 
   --radius: 18px;
+
   --transition: .35s ease;
 
   --max-width: 1200px;
+
+  --header-height: 76px;
 }
 
 
@@ -54,7 +48,9 @@
    RESET
 =========================================================== */
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -62,15 +58,27 @@
 
 html {
   scroll-behavior: smooth;
+
+  scroll-padding-top:
+    calc(var(--header-height) + 20px);
+
   text-rendering: optimizeLegibility;
+
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   min-height: 100vh;
 
-  font-family: 'Poppins', sans-serif;
+  font-family:
+    'Poppins',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
 
   background: var(--background);
+
   color: var(--text);
 
   line-height: 1.7;
@@ -79,23 +87,19 @@ body {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  opacity: 0;
-
-  transition: opacity .45s ease;
-}
-
-body.loaded {
-  opacity: 1;
 }
 
 img {
   display: block;
+
   max-width: 100%;
+
+  height: auto;
 }
 
 a {
   color: inherit;
+
   text-decoration: none;
 }
 
@@ -105,8 +109,18 @@ ul {
 
 button,
 input,
-textarea {
-  font-family: inherit;
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
 }
 
 
@@ -120,9 +134,10 @@ section {
 
 .container {
   width: 90%;
+
   max-width: var(--max-width);
 
-  margin: 0 auto;
+  margin-inline: auto;
 }
 
 
@@ -131,14 +146,18 @@ section {
 =========================================================== */
 
 .section-title {
-  text-align: center;
   margin-bottom: 70px;
+
+  text-align: center;
 }
 
 .section-title span {
+  display: inline-block;
+
   color: var(--secondary);
 
   font-size: .95rem;
+
   font-weight: 600;
 
   letter-spacing: 2px;
@@ -149,7 +168,10 @@ section {
 .section-title h2 {
   margin-top: 15px;
 
+  color: var(--text);
+
   font-size: 2.4rem;
+
   font-weight: 700;
 
   line-height: 1.25;
@@ -174,7 +196,9 @@ section {
   align-items: center;
   justify-content: center;
 
-  padding: 15px 34px;
+  min-height: 52px;
+
+  padding: 14px 34px;
 
   border-radius: 50px;
 
@@ -192,6 +216,7 @@ section {
 
 .primary-btn {
   background: var(--primary);
+
   color: #fff;
 }
 
@@ -205,6 +230,8 @@ section {
   border: 2px solid var(--primary);
 
   color: #fff;
+
+  background: transparent;
 }
 
 .secondary-btn:hover {
@@ -226,17 +253,20 @@ section {
 
   width: 100%;
 
-  z-index: 1000;
+  min-height: var(--header-height);
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  z-index: 1000;
 
   background: rgba(7, 17, 31, .88);
 
-  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  border-bottom:
+    1px solid rgba(255, 255, 255, .06);
 
   box-shadow:
     0 4px 20px rgba(0, 0, 0, .12);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 
   transition:
     background .3s ease,
@@ -244,7 +274,7 @@ section {
 }
 
 .header .container {
-  min-height: 76px;
+  min-height: var(--header-height);
 
   display: flex;
 
@@ -260,7 +290,7 @@ section {
 =========================================================== */
 
 .logo {
-  display: flex;
+  display: inline-flex;
 
   align-items: center;
 
@@ -268,14 +298,16 @@ section {
 
   white-space: nowrap;
 
+  color: #fff;
+
   font-size: 1.45rem;
+
   font-weight: 700;
 
   line-height: 1;
 
-  color: #fff;
-
-  transition: transform .35s ease;
+  transition:
+    transform .35s ease;
 }
 
 .logo span {
@@ -312,11 +344,14 @@ section {
 
   padding: 8px 0;
 
+  color: inherit;
+
   font-weight: 500;
 
   white-space: nowrap;
 
-  transition: color .3s ease;
+  transition:
+    color .3s ease;
 }
 
 .nav-links a:hover,
@@ -339,7 +374,8 @@ section {
 
   background: var(--secondary);
 
-  transition: width .3s ease;
+  transition:
+    width .3s ease;
 }
 
 .nav-links a:hover::after,
@@ -374,7 +410,7 @@ section {
 
   flex-shrink: 0;
 
-  border: none;
+  border: 1px solid transparent;
 
   border-radius: 50%;
 
@@ -387,7 +423,8 @@ section {
   transition:
     background .3s ease,
     color .3s ease,
-    transform .3s ease;
+    transform .3s ease,
+    border-color .3s ease;
 }
 
 #theme-toggle:hover,
@@ -414,7 +451,8 @@ section {
   .header .container {
     display: grid;
 
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns:
+      auto minmax(0, 1fr) auto;
 
     align-items: center;
 
@@ -439,10 +477,6 @@ section {
     gap: clamp(16px, 2vw, 28px);
 
     flex-wrap: nowrap;
-  }
-
-  .nav-links a {
-    white-space: nowrap;
   }
 
   #menu-btn {
@@ -474,7 +508,9 @@ section {
 .hero-container {
   display: grid;
 
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  grid-template-columns:
+    minmax(0, 1.05fr)
+    minmax(0, .95fr);
 
   align-items: center;
 
@@ -494,17 +530,25 @@ section {
 
   border-radius: 40px;
 
-  background: rgba(31, 111, 255, .12);
+  background:
+    rgba(31, 111, 255, .12);
 
   color: var(--secondary);
 
   font-size: .9rem;
+
+  font-weight: 500;
 }
 
 .hero h1 {
   margin-bottom: 25px;
 
-  font-size: clamp(2.7rem, 4vw, 3.4rem);
+  color: var(--text);
+
+  font-size:
+    clamp(2.7rem, 4vw, 3.4rem);
+
+  font-weight: 700;
 
   line-height: 1.15;
 }
@@ -512,9 +556,9 @@ section {
 .hero p {
   max-width: 680px;
 
-  color: var(--text-light);
-
   margin-bottom: 35px;
+
+  color: var(--text-light);
 }
 
 .hero-buttons {
@@ -547,12 +591,12 @@ section {
     );
 }
 
-.hero-logo-light {
-  display: none;
-}
-
 .hero-logo-dark {
   display: block;
+}
+
+.hero-logo-light {
+  display: none;
 }
 
 
@@ -567,7 +611,9 @@ section {
 .about-content {
   display: grid;
 
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr);
 
   gap: 60px;
 
@@ -577,6 +623,7 @@ section {
 .about-image {
   display: flex;
 
+  align-items: center;
   justify-content: center;
 }
 
@@ -585,17 +632,19 @@ section {
 
   max-width: 430px;
 
-  border-radius: var(--radius);
+  border:
+    1px solid var(--border);
 
-  border: 1px solid var(--border);
+  border-radius: var(--radius);
 
   box-shadow: var(--shadow);
 
-  transition: transform .45s ease;
+  transition:
+    transform .45s ease;
 }
 
 .about-image:hover img {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .about-text p {
@@ -607,7 +656,8 @@ section {
 .about-highlights {
   display: grid;
 
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
 
   gap: 20px;
 
@@ -621,11 +671,14 @@ section {
 
   gap: 15px;
 
+  min-width: 0;
+
   padding: 18px;
 
   background: var(--surface);
 
-  border: 1px solid var(--border);
+  border:
+    1px solid var(--border);
 
   border-radius: 15px;
 
@@ -645,6 +698,8 @@ section {
 }
 
 .highlight i {
+  flex-shrink: 0;
+
   color: var(--secondary);
 
   font-size: 1.5rem;
@@ -686,7 +741,8 @@ section {
 
   background: var(--surface);
 
-  border: 1px solid var(--border);
+  border:
+    1px solid var(--border);
 
   border-radius: 20px;
 
@@ -720,7 +776,8 @@ section {
 
   border-radius: 50%;
 
-  background: rgba(0, 184, 255, .12);
+  background:
+    rgba(0, 184, 255, .12);
 }
 
 .service-icon i {
@@ -758,7 +815,8 @@ section {
 
   background: var(--surface);
 
-  border: 1px solid var(--border);
+  border:
+    1px solid var(--border);
 
   border-radius: 20px;
 
@@ -772,15 +830,23 @@ section {
 
 .portfolio-card:hover {
   transform: translateY(-12px);
+
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, .30);
+
+  border-color:
+    rgba(0, 184, 255, .35);
 }
 
 .portfolio-card img {
   width: 100%;
+
   height: 220px;
 
   object-fit: cover;
 
-  transition: transform .45s ease;
+  transition:
+    transform .45s ease;
 }
 
 .portfolio-card:hover img {
@@ -796,14 +862,14 @@ section {
 }
 
 .portfolio-content p {
-  color: var(--text-light);
-
   margin-bottom: 20px;
+
+  color: var(--text-light);
 }
 
 
 /* ===========================================================
-   PORTFOLIO BUTTONS
+   PORTFOLIO LINKS
 =========================================================== */
 
 .portfolio-button,
@@ -816,6 +882,8 @@ section {
 
   min-width: 145px;
 
+  min-height: 42px;
+
   padding: 11px 20px;
 
   margin-top: 8px;
@@ -823,6 +891,7 @@ section {
   border-radius: 30px;
 
   font-size: .85rem;
+
   font-weight: 700;
 
   cursor: pointer;
@@ -842,7 +911,8 @@ section {
 
   color: #fff;
 
-  border: 1px solid rgba(31, 111, 255, .35);
+  border:
+    1px solid rgba(31, 111, 255, .35);
 
   animation:
     portfolioButtonPulse 2s ease-in-out infinite;
@@ -854,7 +924,8 @@ section {
 
   color: #fff;
 
-  border: 1px solid var(--secondary);
+  border:
+    1px solid var(--secondary);
 }
 
 .portfolio-link i {
@@ -881,7 +952,8 @@ section {
 .portfolio-button i {
   font-size: .75rem;
 
-  transition: transform .25s ease;
+  transition:
+    transform .25s ease;
 }
 
 .portfolio-button:hover i {
@@ -923,7 +995,8 @@ section {
 
   background: var(--surface);
 
-  border: 1px solid var(--border);
+  border:
+    1px solid var(--border);
 
   border-radius: 20px;
 
@@ -968,9 +1041,11 @@ section {
 }
 
 .blog-card {
+  width: 100%;
+
   max-width: 850px;
 
-  margin: auto;
+  margin-inline: auto;
 
   padding: 60px 45px;
 
@@ -978,7 +1053,8 @@ section {
 
   background: var(--surface);
 
-  border: 1px solid var(--border);
+  border:
+    1px solid var(--border);
 
   border-radius: 22px;
 
@@ -1008,7 +1084,8 @@ section {
 
   border-radius: 50%;
 
-  background: rgba(0, 184, 255, .12);
+  background:
+    rgba(0, 184, 255, .12);
 }
 
 .blog-icon i {
@@ -1046,7 +1123,8 @@ section {
 
   background: var(--surface);
 
-  border: 1px solid var(--border);
+  border:
+    1px solid var(--border);
 
   border-radius: 20px;
 
@@ -1062,6 +1140,9 @@ section {
   transform: translateY(-10px);
 
   border-color: var(--secondary);
+
+  box-shadow:
+    0 20px 45px rgba(0, 184, 255, .12);
 }
 
 .contact-card i {
@@ -1081,7 +1162,8 @@ section {
 
   word-break: break-word;
 
-  transition: color .35s ease;
+  transition:
+    color .35s ease;
 }
 
 .contact-card a:hover {
@@ -1102,6 +1184,8 @@ section {
 
   min-width: 145px;
 
+  min-height: 42px;
+
   padding: 12px 22px;
 
   margin-top: 14px;
@@ -1110,7 +1194,8 @@ section {
 
   color: #fff !important;
 
-  border: 1px solid #008dcc;
+  border:
+    1px solid #008dcc;
 
   border-radius: 30px;
 
@@ -1144,7 +1229,7 @@ section {
 
 
 /* ===========================================================
-   REVEAL ANIMATIONS
+   SCROLL REVEAL
 =========================================================== */
 
 .reveal,
@@ -1164,6 +1249,11 @@ section {
 
   transform: translateY(0);
 }
+
+
+/* ===========================================================
+   FLOATING ELEMENT
+=========================================================== */
 
 .float {
   animation:
@@ -1201,7 +1291,8 @@ section {
   align-items: center;
   justify-content: center;
 
-  border: none;
+  border:
+    1px solid rgba(255, 255, 255, .08);
 
   border-radius: 50%;
 
@@ -1251,18 +1342,19 @@ section {
 =========================================================== */
 
 .footer {
+  padding-top: 70px;
+
   background: #040b15;
 
   border-top:
     1px solid rgba(255, 255, 255, .06);
-
-  padding-top: 70px;
 }
 
 .footer .container {
   display: grid;
 
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns:
+    2fr 1fr 1fr;
 
   gap: 50px;
 
@@ -1366,6 +1458,7 @@ section {
 
 /* ===========================================================
    SPLASH SCREEN
+   CURRENT HTML ONLY
 =========================================================== */
 
 .sdh-splash {
@@ -1390,6 +1483,8 @@ section {
   opacity: 1;
 
   visibility: visible;
+
+  pointer-events: auto;
 
   transition:
     opacity .7s ease,
@@ -1419,49 +1514,30 @@ section {
   text-align: center;
 }
 
-.sdh-splash-icon {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-}
 
 /* ===========================================================
-   SPLASH BRAND
+   SPLASH ICON
 =========================================================== */
 
-.sdh-splash-brand {
-  min-height: 50px;
+.sdh-splash-icon-wrap {
+  display: flex;
 
-  margin-bottom: 22px;
+  align-items: center;
+  justify-content: center;
 
-  overflow: hidden;
-
-  transition:
-    opacity .5s ease,
-    transform .5s ease;
+  margin-bottom: 24px;
 }
 
-.sdh-splash-brand.sdh-brand-fade {
-  opacity: 0;
+.sdh-splash-icon {
+  width: 100px;
+  height: 100px;
 
-  transform: translateY(-8px);
-}
+  object-fit: contain;
 
-.sdh-typing-text {
-  display: inline-block;
-
-  color: #fff;
-
-  font-size: 1.45rem;
-
-  font-weight: 700;
-
-  letter-spacing: .04em;
-
-  white-space: nowrap;
-
-  text-shadow:
-    0 0 12px rgba(0, 184, 255, .20);
+  filter:
+    drop-shadow(
+      0 10px 30px rgba(0, 184, 255, .18)
+    );
 }
 
 
@@ -1470,18 +1546,19 @@ section {
 =========================================================== */
 
 .sdh-splash-spinner {
-  display: none;
+  display: block;
 
   width: 58px;
   height: 58px;
 
-  margin: 24px auto;
+  margin: 0 auto 24px;
 
-  border-radius: 50%;
-
-  border: 5px solid rgba(255, 255, 255, .15);
+  border:
+    5px solid rgba(255, 255, 255, .15);
 
   border-top-color: var(--secondary);
+
+  border-radius: 50%;
 
   animation:
     sdhSpinnerRotate 2s linear infinite;
@@ -1500,13 +1577,14 @@ section {
 
 
 /* ===========================================================
-   SPLASH WELCOME
+   SPLASH WELCOME MESSAGE
+   Typed by the current script.js
 =========================================================== */
 
 .sdh-splash-message {
-  display: none;
+  display: block;
 
-  margin: 0 0 8px;
+  margin: 0;
 
   color: #fff;
 
@@ -1522,103 +1600,43 @@ section {
 
   white-space: nowrap;
 
-  opacity: 0;
-
-  transform: translateY(10px);
-
-  transition:
-    opacity .8s ease,
-    transform .8s ease;
-}
-
-
-/* ===========================================================
-   SPLASH PREPARING
-=========================================================== */
-
-.sdh-loading-text {
-  display: none;
-
-  align-items: baseline;
-
-  justify-content: center;
-
-  width: auto;
-
-  max-width: calc(100vw - 32px);
-
-  margin: 18px auto 0;
-
-  color: #b8c4d6;
-
-  font-size: .98rem;
-
-  font-weight: 500;
-
-  line-height: 1.5;
-
-  white-space: nowrap;
-
-  opacity: 0;
-
-  transform: translateY(10px);
-
-  transition:
-    opacity .8s ease,
-    transform .8s ease;
-}
-
-
-/* ===========================================================
-   SPLASH STAGE CONTROLLERS
-=========================================================== */
-
-/* Stage 2 — typing + spinner */
-
-.sdh-splash.sdh-stage-spinner
-.sdh-splash-spinner {
-  display: block;
-}
-
-
-/* Stage 3 — welcome */
-
-.sdh-splash.sdh-stage-welcome
-.sdh-splash-message {
-  display: block;
-
   opacity: 1;
 
   transform: translateY(0);
-}
 
-
-/* Stage 4 — preparing */
-
-.sdh-splash.sdh-stage-preparing
-.sdh-loading-text {
-  display: inline-flex;
-
-  opacity: 1;
-
-  transform: translateY(0);
+  min-height: 1.7em;
 }
 
 
 /* ===========================================================
-   LOADING DOTS
+   SPLASH TYPING CURSOR
 =========================================================== */
 
-.sdh-loading-dots {
+.sdh-splash-message.typing::after {
+  content: "|";
+
   display: inline-block;
 
-  min-width: 1.5em;
+  margin-left: 4px;
 
-  text-align: left;
+  color: var(--secondary);
 
-  white-space: pre;
+  animation:
+    sdhTypingCursor .75s steps(1) infinite;
 }
 
+@keyframes sdhTypingCursor {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
 
 /* ===========================================================
    SPLASH BRAND COLORS
@@ -1655,7 +1673,8 @@ section {
 
   padding: 20px;
 
-  background: rgba(3, 10, 20, .82);
+  background:
+    rgba(3, 10, 20, .82);
 
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -1733,7 +1752,8 @@ section {
 
   border-radius: 50%;
 
-  background: rgba(0, 184, 255, .12);
+  background:
+    rgba(0, 184, 255, .12);
 
   border:
     1px solid rgba(0, 184, 255, .45);
@@ -1786,6 +1806,8 @@ section {
   justify-content: center;
 
   min-width: 155px;
+
+  min-height: 44px;
 
   margin-top: 14px;
 
@@ -1853,7 +1875,8 @@ body.light-mode {
 =========================================================== */
 
 body.light-mode .header {
-  background: rgba(255, 255, 255, .94);
+  background:
+    rgba(255, 255, 255, .94);
 
   border-bottom-color:
     rgba(7, 17, 31, .08);
@@ -1970,7 +1993,7 @@ body.light-mode .contact-card p {
 
 
 /* ===========================================================
-   LIGHT MODE ABOUT HIGHLIGHTS
+   LIGHT MODE ABOUT
 =========================================================== */
 
 body.light-mode .highlight {
@@ -2157,34 +2180,13 @@ body.light-mode .hero-logo-light {
   display: block;
 }
 
-
-/* ===========================================================
-   LIGHT MODE SPLASH
-=========================================================== */
-
-body.light-mode .sdh-splash {
-  background: #f7fbff;
-}
-
-body.light-mode .sdh-typing-text {
-  color: #07111f;
-}
-
-body.light-mode .sdh-splash-message {
-  color: #07111f;
-}
-
-body.light-mode .sdh-loading-text {
-  color: #536273;
-}
-
-
 /* ===========================================================
    LIGHT MODE NOTICE
 =========================================================== */
 
 body.light-mode .sdh-notice-overlay {
-  background: rgba(10, 18, 30, .60);
+  background:
+    rgba(10, 18, 30, .60);
 }
 
 body.light-mode .sdh-notice-card {
@@ -2323,11 +2325,18 @@ button:focus-visible {
 
 @media screen and (max-width: 992px) {
 
-  .header .container {
-    min-height: 76px;
+  :root {
+    --header-height: 76px;
   }
 
-  /* Mobile/tablet navigation */
+  .header .container {
+    min-height: var(--header-height);
+  }
+
+
+  /* ---------------------------------------------------------
+     MOBILE / TABLET NAVIGATION
+  --------------------------------------------------------- */
 
   .navbar {
     position: static;
@@ -2336,12 +2345,14 @@ button:focus-visible {
   .nav-links {
     position: fixed;
 
-    top: 76px;
+    top: var(--header-height);
+
     right: -100%;
 
-    width: 280px;
+    width: min(280px, 86vw);
 
-    height: calc(100vh - 76px);
+    height:
+      calc(100vh - var(--header-height));
 
     display: flex;
 
@@ -2358,12 +2369,19 @@ button:focus-visible {
     border-left:
       1px solid var(--border);
 
-    transition: right .35s ease;
+    box-shadow:
+      -10px 0 30px rgba(0, 0, 0, .12);
+
+    transition:
+      right .35s ease;
 
     overflow-y: auto;
+
+    overscroll-behavior: contain;
   }
 
-  .nav-links.active {
+  /* script.js toggles .active on .navbar (#site-navigation). */
+  .navbar.active .nav-links {
     right: 0;
   }
 
@@ -2381,7 +2399,10 @@ button:focus-visible {
     display: flex;
   }
 
-  /* Hero */
+
+  /* ---------------------------------------------------------
+     HERO
+  --------------------------------------------------------- */
 
   .hero-container {
     grid-template-columns: 1fr;
@@ -2404,15 +2425,17 @@ button:focus-visible {
   }
 
   .hero p {
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
   }
 
   .hero-buttons {
     justify-content: center;
   }
 
-  /* About */
+
+  /* ---------------------------------------------------------
+     ABOUT
+  --------------------------------------------------------- */
 
   .about-content {
     grid-template-columns: 1fr;
@@ -2431,10 +2454,14 @@ button:focus-visible {
   }
 
   .about-highlights {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 
-  /* Footer */
+
+  /* ---------------------------------------------------------
+     FOOTER
+  --------------------------------------------------------- */
 
   .footer .container {
     grid-template-columns: 1fr;
@@ -2450,8 +2477,7 @@ button:focus-visible {
   }
 
   .footer-logo p {
-    margin-left: auto;
-    margin-right: auto;
+    margin-inline: auto;
   }
 
   .social-icons {
@@ -2505,12 +2531,16 @@ button:focus-visible {
 
 @media screen and (max-width: 480px) {
 
+  :root {
+    --header-height: 70px;
+  }
+
   .container {
     width: 92%;
   }
 
   .header .container {
-    min-height: 70px;
+    min-height: var(--header-height);
   }
 
   .logo {
@@ -2518,11 +2548,10 @@ button:focus-visible {
   }
 
   .nav-links {
-    top: 70px;
+    top: var(--header-height);
 
-    height: calc(100vh - 70px);
-
-    width: min(280px, 86vw);
+    height:
+      calc(100vh - var(--header-height));
   }
 
   .hero {
@@ -2547,8 +2576,14 @@ button:focus-visible {
   .contact-card,
   .why-card {
     padding-left: 20px;
+
     padding-right: 20px;
   }
+
+
+  /* ---------------------------------------------------------
+     SPLASH
+  --------------------------------------------------------- */
 
   .sdh-splash {
     padding: 16px;
@@ -2558,10 +2593,16 @@ button:focus-visible {
     width: 94%;
   }
 
-  .sdh-typing-text {
-    font-size: 1.65rem;
+  .sdh-splash-icon {
+    width: 85px;
+    height: 85px;
+  }
 
-    letter-spacing: .5px;
+  .sdh-splash-spinner {
+    width: 50px;
+    height: 50px;
+
+    border-width: 4px;
   }
 
   .sdh-splash-message {
@@ -2570,13 +2611,10 @@ button:focus-visible {
     white-space: normal;
   }
 
-  .sdh-loading-text {
-    font-size: .72rem;
 
-    white-space: normal;
-
-    text-align: center;
-  }
+  /* ---------------------------------------------------------
+     NOTICE
+  --------------------------------------------------------- */
 
   .sdh-notice-card {
     width: 94%;
@@ -2600,11 +2638,18 @@ button:focus-visible {
     width: 100%;
   }
 
+
+  /* ---------------------------------------------------------
+     BACK TO TOP
+  --------------------------------------------------------- */
+
   #topBtn {
     right: 18px;
+
     bottom: 18px;
 
     width: 50px;
+
     height: 50px;
   }
 }
@@ -2616,18 +2661,37 @@ button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
 
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
-    animation: none !important;
+    animation-duration: .01ms !important;
 
-    transition: none !important;
+    animation-iteration-count: 1 !important;
 
-    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
   }
 
-  body {
-    transition: none;
+  .float {
+    animation: none !important;
+  }
+
+  .sdh-splash-spinner {
+    animation: none !important;
+  }
+
+  .portfolio-button {
+    animation: none !important;
+  }
+
+  .reveal,
+  .fade-up {
+    opacity: 1;
+
+    transform: none;
   }
 }
 
